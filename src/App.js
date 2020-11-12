@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 // Local Dependencies
-import { AuthorProvider } from './contexts/authors.context';
 import { fetchBooks } from './features/Books/actions';
 import { Authors } from './features/Authors';
 import { Books } from './features/Books';
@@ -19,8 +18,9 @@ const App = () => {
   return (
     <main className="App-main">
       <div className="App-row">
-        Select any book to match it with an author, or select any author to
-        match them to their book(s)
+        *Challenge* Select any book to match it with an author, or select any
+        author to match them to their book(s) and pass that to the InfoDisplay
+        component
       </div>
       <div className="App-container App-row">
         <div className="App-col">
@@ -31,16 +31,18 @@ const App = () => {
           <Books />
         </div>
         <div className="App-col">
-          {/* We only wrapping <Authors /> in
+          {/* We could only wrap <Authors /> in
            * <AuthorProvider /> But we could also wrap it
            * around <App /> so the entire application has
            * access to the Author context we created, similar
            * to how we wrap <App /> in the <Provider store={store} />
            * from react-redux
+           * It just depends on what part of the component tree you want
+           * to have access to that context
            */}
-          <AuthorProvider>
-            <Authors />
-          </AuthorProvider>
+          {/* <AuthorProvider> */}
+          <Authors />
+          {/* </AuthorProvider> */}
         </div>
       </div>
     </main>

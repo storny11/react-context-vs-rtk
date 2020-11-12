@@ -7,11 +7,14 @@ import './index.css';
 import App from './App';
 import store from './app/store';
 import * as serviceWorker from './serviceWorker';
+import { AuthorProvider } from './contexts/authors.context';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <AuthorProvider>
+        <App />
+      </AuthorProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
