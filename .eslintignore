@@ -12,7 +12,7 @@ db.json
 # production
 /build
 src/App.css
-src/serviceWorker.ts
+src/serviceWorker.js
 
 # misc
 .DS_Store
