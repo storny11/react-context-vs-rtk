@@ -1,7 +1,11 @@
 import React from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+
+import { setSelectedBookId } from './booksSlice';
 
 export const Books = () => {
+  const dispatch = useDispatch();
+
   const { books, isLoading } = useSelector(
     (state) => ({
       books: state.books.books,
@@ -10,13 +14,25 @@ export const Books = () => {
     shallowEqual
   );
 
+  const handleClick = (bookId) => {
+    dispatch(setSelectedBookId(bookId));
+  };
+
   return (
     <>
       <p>Books</p>
       {!isLoading ? (
         <ul>
           {books.map((book) => {
-            return <li key={book.id}>{book.title}</li>;
+            return (
+              <li
+                key={book.id}
+                onClick={() => handleClick(book.id)}
+                role="presentation"
+              >
+                {book.title}
+              </li>
+            );
           })}
         </ul>
       ) : (

@@ -1,7 +1,12 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = { isLoading: false, error: null, books: [] };
+const initialState = {
+  isLoading: false,
+  error: null,
+  books: [],
+  selectedBookId: null,
+};
 
 const startLoading = (state) => {
   state.isLoading = true;
@@ -23,6 +28,9 @@ export const booksSlice = createSlice({
       state.error = null;
     },
     requestBooksFailure: loadingFailed,
+    setSelectedBookId: (state, action) => {
+      state.selectedBookId = action.payload;
+    },
   },
 });
 
@@ -30,6 +38,7 @@ export const {
   requestBooksPending,
   requestBooksSuccess,
   requestBooksFailure,
+  setSelectedBookId,
 } = booksSlice.actions;
 
 export default booksSlice.reducer;

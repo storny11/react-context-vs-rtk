@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 
 export const authorContext = createContext({});
@@ -15,9 +15,27 @@ export const useAuthors = () => {
 // This could be considered your "Service" that contains business logic
 export const useProvideAuthors = () => {
   // Local State setup
-  const [authors, setAuthors] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const initialState = {
+    authors: [],
+    loading: false,
+    error: null,
+    selectedAuthorId: null,
+  };
+
+  const [state, dispatch] = useReducer((store, action) => {
+    switch (action.type) {
+      case 'setSelectedAuthorId':
+        return { ...store, selectedAuthorId: action.payload };
+      case 'setLoading':
+        return { ...store, loading: action.payload };
+      case 'setAuthors':
+        return { ...store, authors: action.payload };
+      case 'setError':
+        return { ...store, authors: action.payload };
+      default:
+        throw new Error();
+    }
+  }, initialState);
 
   // Create a function to retreive data from ...
   // ... some endpoint. This could be its own ...
@@ -28,26 +46,26 @@ export const useProvideAuthors = () => {
     // const { authors } = axios.get('https://my-authors-api.com')
     try {
       const { authors } = await import('../data/authors'); // eslint-disable-line no-shadow
-      setAuthors(authors);
+      dispatch({ type: 'setAuthors', payload: authors });
     } catch (err) {
-      setError(err);
+      dispatch({ type: 'setError', payload: err });
     }
   };
 
   // Trigger our API request on mount
   useEffect(() => {
     // set our loading state before making our request
-    setLoading(true);
+    dispatch({ type: 'setLoading', payload: true });
     // Wrap this in setTimeout to simulate server ...
     // ... request / response of 2.5 seconds
     setTimeout(() => {
       fetchAuthors();
       // reset loading state once async request has resolved
-      setLoading(false);
+      dispatch({ type: 'setLoading', payload: false });
     }, 2500);
   }, []);
 
-  return { authors, loading, error };
+  return { state, dispatch };
 };
 
 export const AuthorProvider = ({ children }) => {

@@ -7,6 +7,8 @@ import { Authors } from './features/Authors';
 import { Books } from './features/Books';
 import './App.css';
 
+import { InfoDisplay } from './components/InfoDisplay';
+
 const App = () => {
   const dispatch = useDispatch();
 
@@ -43,6 +45,9 @@ const App = () => {
           {/* <AuthorProvider> */}
           <Authors />
           {/* </AuthorProvider> */}
+        </div>
+        <div className="App-col">
+          <InfoDisplay />
         </div>
       </div>
     </main>
